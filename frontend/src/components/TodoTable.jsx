@@ -17,10 +17,10 @@ function TodoTable() {
         </tr>
       </thead>
       <tbody>
-        { tasks.map((task) => (
-          <tr>
-            <td>{task.name}</td>
-            <td>{task.status}</td>
+        { tasks.map(({ _id: id, name, status }) => (
+          <tr key={id}>
+            <td>{name}</td>
+            <td>{status}</td>
           </tr>
         )) }
       </tbody>

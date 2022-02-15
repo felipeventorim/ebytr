@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
@@ -7,11 +7,22 @@ import TodoContext from './TodoContext';
 axios.defaults.baseURL = '';
 
 function TodoProvider({ children }) {
-  const [tasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const taskRequisition = async () => {
+      const { data } = await axios.get('http://localhost:3001/tasks');
+      setTasks(data);
+    };
+
+    taskRequisition();
+  }, []);
+
+  const memoTasks = useMemo(() => ({ tasks }), [tasks]);
 
   return (
     <div>
-      <TodoContext.Provider value={tasks}>
+      <TodoContext.Provider value={memoTasks}>
         {children}
       </TodoContext.Provider>
     </div>
@@ -19,7 +30,7 @@ function TodoProvider({ children }) {
 }
 
 TodoProvider.propTypes = {
-  children: PropTypes.elementType.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default TodoProvider;
