@@ -1,15 +1,15 @@
 import React from 'react';
 import Header from '../components/Header';
 
-import SearchInput from '../components/SearchInput';
-import TodoTable from '../components/TodoTable';
+import TaskInput from '../components/TaskInput';
+import TaskList from '../components/TaskList';
 
 function Home() {
   return (
     <>
       <Header />
-      <SearchInput />
-      <TodoTable />
+      <TaskInput />
+      <TaskList />
     </>
   );
 }

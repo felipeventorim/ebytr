@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
 
 import TodoContext from '../context/TodoContext';
+import Loading from './Loading';
+import TaskCard from './TaskCard';
 
-function TodoTable() {
+function TaskList() {
   const { tasks } = useContext(TodoContext);
+
+  if (!tasks || !tasks.length) <Loading />;
 
   return (
     <table>
@@ -18,14 +22,11 @@ function TodoTable() {
       </thead>
       <tbody>
         { tasks.map(({ _id: id, name, status }) => (
-          <tr key={id}>
-            <td>{name}</td>
-            <td>{status}</td>
-          </tr>
+          <TaskCard key={id} name={name} status={status} />
         )) }
       </tbody>
     </table>
   );
 }
 
-export default TodoTable;
+export default TaskList;

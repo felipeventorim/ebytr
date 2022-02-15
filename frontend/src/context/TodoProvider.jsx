@@ -1,28 +1,42 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 
-import TodoContext from './TodoContext';
+import { getAllTasks, createTask } from '../services/api';
 
-axios.defaults.baseURL = '';
+import TodoContext from './TodoContext';
 
 function TodoProvider({ children }) {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    const taskRequisition = async () => {
-      const { data } = await axios.get('http://localhost:3001/tasks');
+    const getTasks = async () => {
+      const data = await getAllTasks();
+
       setTasks(data);
     };
 
-    taskRequisition();
+    getTasks();
   }, []);
 
-  const memoTasks = useMemo(() => ({ tasks }), [tasks]);
+  const getUpdatedTasks = async () => {
+    const data = await getAllTasks();
+
+    setTasks(data);
+  };
+
+  const createNewTask = async (task) => {
+    await createTask(task);
+    await getUpdatedTasks();
+  };
+
+  const context = useMemo(() => ({
+    tasks,
+    createNewTask,
+  }), [tasks]);
 
   return (
     <div>
-      <TodoContext.Provider value={memoTasks}>
+      <TodoContext.Provider value={context}>
         {children}
       </TodoContext.Provider>
     </div>
