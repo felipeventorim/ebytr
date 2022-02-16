@@ -15,7 +15,10 @@ const getAllTasks = async () => {
 const createTask = async (task) => {
   const db = await connection();
 
-  const { insertedId } = await db.collection(DB_COLLECTION).insertOne(task);
+  const date = new Date();
+  const createdAt = date.toLocaleString('pt-Br');
+
+  const { insertedId } = await db.collection(DB_COLLECTION).insertOne({ ...task, createdAt });
 
   return insertedId;
 };
