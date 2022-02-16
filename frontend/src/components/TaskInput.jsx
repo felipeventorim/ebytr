@@ -3,7 +3,7 @@ import TodoContext from '../context/TodoContext';
 
 function TaskInput() {
   const [taskName, setTaskName] = useState('');
-  const { createNewTask } = useContext(TodoContext);
+  const { handleCreateTask } = useContext(TodoContext);
 
   const handleInput = ({ target }) => {
     const { value } = target;
@@ -12,7 +12,7 @@ function TaskInput() {
 
   const createTask = (event) => {
     event.preventDefault();
-    createNewTask({ name: taskName, status: 'pendente' });
+    handleCreateTask({ name: taskName, status: 'pendente' });
 
     setTaskName('');
   };

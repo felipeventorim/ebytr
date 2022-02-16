@@ -1,14 +1,22 @@
 import React, { useContext, useState } from 'react';
 
 import TodoContext from '../context/TodoContext';
+import sortOptions from '../utils/sortOptions';
 import Loading from './Loading';
 import ModalUpdate from './ModalUpdate';
 import TaskCard from './TaskCard';
 
+import sortIcon from '../images/sortIcon.svg';
+
 function TaskList() {
   const [modal, setModal] = useState(false);
   const [idToUpdate, setIdToUpdate] = useState('');
-  const { tasks, handleUpdateTask, handleDeleteTask } = useContext(TodoContext);
+  const {
+    tasks,
+    handleSortTasks,
+    handleUpdateTask,
+    handleDeleteTask,
+  } = useContext(TodoContext);
 
   const getTask = () => tasks.find(({ _id }) => _id === idToUpdate);
 
@@ -38,34 +46,46 @@ function TaskList() {
 
   return (
     <div>
-      { modal
-      && (
-      <ModalUpdate
-        closeModal={closeModal}
-        taskToUpdate={getTask()}
-      />
-      ) }
+      {modal
+        && (
+          <ModalUpdate
+            closeModal={closeModal}
+            taskToUpdate={getTask()}
+          />
+        )}
       <table>
         <thead>
           <tr>
             <th>Tasks</th>
           </tr>
           <tr>
-            <td>Name</td>
-            <td>Status</td>
+            {Object.keys(sortOptions).map((option) => (
+              <td key={option}>
+                {option}
+                <span aria-hidden onClick={() => handleSortTasks(option)}>
+                  <img src={sortIcon} width="20" alt="sortIcon" />
+                </span>
+              </td>
+            ))}
           </tr>
         </thead>
         <tbody>
-          { tasks.map(({ _id: id, name, status }) => (
+          {tasks.map(({
+            _id: id,
+            name,
+            status,
+            createdAt,
+          }) => (
             <TaskCard
               key={id}
               id={id}
               name={name}
               status={status}
+              createdAt={createdAt}
               updateTask={handleUpdateTaskButton}
               deleteTask={handleDeleteTaskButton}
             />
-          )) }
+          ))}
         </tbody>
       </table>
     </div>

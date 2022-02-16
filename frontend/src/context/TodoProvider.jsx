@@ -7,16 +7,30 @@ import {
   updateTask,
   deleteTask,
 } from '../services/api';
+import sortOptions from '../utils/sortOptions';
 
 import TodoContext from './TodoContext';
 
+const ALPHABETICAL_ORDER = Object.keys(sortOptions)[0];
+
 function TodoProvider({ children }) {
   const [tasks, setTasks] = useState([]);
+  const [sortMethod, setSortMethod] = useState({ sortBy: ALPHABETICAL_ORDER, ordered: true });
+
+  const sortTasks = (data) => {
+    const { sortBy, ordered } = sortMethod;
+    data.sort((a, b) => {
+      if (a[sortBy] < b[sortBy]) return -1;
+      if (b[sortBy] > a[sortBy]) return 1;
+      return 0;
+    });
+    if (ordered) data.reverse();
+  };
 
   useEffect(() => {
     const getTasks = async () => {
       const data = await getAllTasks();
-
+      sortTasks(data);
       setTasks(data);
     };
 
@@ -25,11 +39,19 @@ function TodoProvider({ children }) {
 
   const getUpdatedTasks = async () => {
     const data = await getAllTasks();
-
+    sortTasks(data);
     setTasks(data);
   };
 
-  const createNewTask = async (task) => {
+  useEffect(() => getUpdatedTasks(), [sortMethod]);
+
+  const handleSortTasks = async (sortBy) => {
+    if (sortBy === sortMethod.sortBy) {
+      setSortMethod((prevState) => ({ sortBy, ordered: !prevState.ordered }));
+    } else setSortMethod({ sortBy, ordered: true });
+  };
+
+  const handleCreateTask = async (task) => {
     await createTask(task);
     await getUpdatedTasks();
   };
@@ -47,7 +69,8 @@ function TodoProvider({ children }) {
 
   const context = useMemo(() => ({
     tasks,
-    createNewTask,
+    handleSortTasks,
+    handleCreateTask,
     handleUpdateTask,
     handleDeleteTask,
   }), [tasks]);

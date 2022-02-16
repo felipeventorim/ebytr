@@ -1,12 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const OPTIONS = [
-  '',
-  'pendente',
-  'em andamento',
-  'pronto',
-];
+import statusOptions from '../utils/statusOptions';
 
 function ModalUpdate({ closeModal, taskToUpdate }) {
   const [task, setTask] = useState(taskToUpdate);
@@ -28,8 +23,8 @@ function ModalUpdate({ closeModal, taskToUpdate }) {
       <label htmlFor="update">
         <input id="update" name="name" value={task.name} onChange={onChange} type="text" />
         <select name="status" onChange={onChange} value={task.status} id="status">
-          { OPTIONS.map((option) => (
-            <option value={option}>{option}</option>
+          { statusOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
           )) }
         </select>
       </label>
