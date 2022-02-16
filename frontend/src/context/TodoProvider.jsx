@@ -1,7 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { getAllTasks, createTask } from '../services/api';
+import {
+  getAllTasks,
+  createTask,
+  updateTask,
+  deleteTask,
+} from '../services/api';
 
 import TodoContext from './TodoContext';
 
@@ -29,9 +34,22 @@ function TodoProvider({ children }) {
     await getUpdatedTasks();
   };
 
+  const handleUpdateTask = async (task) => {
+    const { _id: id, ...updatedTask } = task;
+    await updateTask(id, updatedTask);
+    await getUpdatedTasks();
+  };
+
+  const handleDeleteTask = async (id) => {
+    await deleteTask(id);
+    await getUpdatedTasks();
+  };
+
   const context = useMemo(() => ({
     tasks,
     createNewTask,
+    handleUpdateTask,
+    handleDeleteTask,
   }), [tasks]);
 
   return (
