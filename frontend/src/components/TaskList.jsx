@@ -59,10 +59,10 @@ function TaskList() {
             <th>Tasks</th>
           </tr>
           <tr>
-            {Object.keys(sortOptions).map((option) => (
-              <td key={option}>
-                {option}
-                <span aria-hidden onClick={() => handleSortTasks(option)}>
+            {Object.entries(sortOptions).map((option) => (
+              <td key={option[0]}>
+                {option[1]}
+                <span aria-hidden onClick={() => handleSortTasks(option[0])}>
                   <img src={sortIcon} width="20" alt="sortIcon" />
                 </span>
               </td>

@@ -1,5 +1,5 @@
 export default {
-  name: 'ordem alfabética',
+  name: 'nome',
   status: 'status',
   createdAt: 'data de criação',
 };
