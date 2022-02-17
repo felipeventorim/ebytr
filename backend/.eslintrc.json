@@ -2,7 +2,8 @@
     "env": {
         "commonjs": true,
         "es2021": true,
-        "node": true
+        "node": true,
+        "mocha": true
     },
     "extends": [
         "airbnb-base"
@@ -10,7 +11,13 @@
     "parserOptions": {
         "ecmaVersion": "latest"
     },
+    "ignorePatterns": ["src/test/**/*.js"],
     "rules": {
-        "no-console": 0
+        "no-console": 0,
+        "import/no-extraneous-dependencies": [
+            "error", {
+               "devDependencies": true
+            }
+        ]
     }
 }
