@@ -1,9 +1,11 @@
 const { StatusCodes } = require('http-status-codes');
+const { ObjectId } = require('mongodb');
 
 const tasksModel = require('../models/tasksModel');
 const createTaskSchema = require('../schemas/createTaskSchema');
 const deleteTaskSchema = require('../schemas/deleteTaskSchema');
 const updateTaskSchema = require('../schemas/updateTaskSchema');
+
 const errorMessages = require('../utils/dictionary/errorMessages');
 const errorConstructor = require('../utils/functions/errorConstructor');
 
@@ -18,7 +20,7 @@ const createTask = async (task) => {
 
   if (error) throw errorConstructor(StatusCodes.BAD_REQUEST, error.message);
 
-  const id = tasksModel.createTask(task);
+  const id = await tasksModel.createTask(task);
 
   return id;
 };
@@ -28,10 +30,12 @@ const updateTask = async (task) => {
 
   if (error) throw errorConstructor(StatusCodes.BAD_REQUEST, error.message);
 
-  const isUpdated = tasksModel.updateTask(task);
+  const { id, name, status } = task;
+
+  const isUpdated = await tasksModel.updateTask(new ObjectId(id), name, status);
 
   if (!isUpdated) {
-    throw errorConstructor(StatusCodes.INTERNAL_SERVER_ERROR, errorMessages.serverError);
+    throw errorConstructor(StatusCodes.UNPROCESSABLE_ENTITY, errorMessages.wrongId);
   }
 
   return isUpdated;
@@ -42,7 +46,9 @@ const deleteTask = async (id) => {
 
   if (error) throw errorConstructor(StatusCodes.BAD_REQUEST, error.message);
 
-  const deletedTask = tasksModel.deleteTask(id);
+  const deletedTask = await tasksModel.deleteTask(new ObjectId(id));
+
+  if (!deletedTask) throw errorConstructor(StatusCodes.UNPROCESSABLE_ENTITY, errorMessages.wrongId);
 
   return deletedTask;
 };

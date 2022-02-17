@@ -31,9 +31,9 @@ const updateTask = async (req, res, next) => {
     const { id } = req.params;
     const { name, status } = req.body;
 
-    const task = await tasksService.updateTask({ id, name, status });
+    await tasksService.updateTask({ id, name, status });
 
-    res.status(StatusCodes.OK).json(task);
+    res.status(StatusCodes.OK).json();
   } catch (error) {
     console.log('updateTask => ', error.message);
     next(error);

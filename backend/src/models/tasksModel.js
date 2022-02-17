@@ -1,5 +1,3 @@
-const { ObjectId } = require('mongodb');
-
 const connection = require('./connection');
 
 const DB_COLLECTION = 'tasks';
@@ -23,16 +21,13 @@ const createTask = async (task) => {
   return insertedId;
 };
 
-const updateTask = async (task) => {
+const updateTask = async (id, name, status) => {
   const db = await connection();
 
   const { modifiedCount } = await db.collection(DB_COLLECTION).updateOne(
-    { _id: ObjectId(task.id) },
+    { _id: id },
     {
-      $set: {
-        name: task.name,
-        status: task.status,
-      },
+      $set: { name, status },
     },
   );
 
@@ -43,7 +38,7 @@ const deleteTask = async (id) => {
   const db = await connection();
 
   const { value } = await db.collection(DB_COLLECTION).findOneAndDelete(
-    { _id: ObjectId(id) },
+    { _id: id },
   );
 
   return value;
