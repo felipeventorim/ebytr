@@ -4,3 +4,6 @@ package-lock.json
 
 # dotenv environment variable files
 .env
+
+# tests coverage
+.nyc_output
