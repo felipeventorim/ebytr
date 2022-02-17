@@ -1,8 +1,6 @@
-# ebytr
+# Desafio Ebytr
 
 ## Contexto
-
----
 
 Esse projeto foi desenvolvido para uma vaga de Pessoa Desenvolvedora Jr na empresa [`Ebytr`](www.betrybe.com).
 
@@ -20,6 +18,8 @@ A proposta era desenvolver uma aplicação backend para uma concessionária de a
 - Remover uma tarefa da lista;
 - Atualizar uma tarefa da lista;
 - A tarefa deve possuir um status editável: pendente, em andamento ou pronto;
+
+---
 
 ## Como instalar
 
@@ -46,18 +46,17 @@ Copie o ssh do projeto `git@github.com:felipeventorim/ebytr.git`
   * `cd frontend`
   * `npm install && npm start`
   * `npm start`
-  
-## Modo de desenvolvimento
 
 ---
+
+## Tecnologias
 
 O projeto foi desenvolvido utilizando a stack [MERN](https://www.mongodb.com/mern-stack)
 
-### Tecnologias
-
----
-
-Foi utilizado para o desenvolvimento desse projeto o NodeJS com Express para a criação básica, Mocha/Chai para a criação dos teste.
+- [MongoDB](https://www.mongodb.com/pt-br/1)
+- [Express.js](https://expressjs.com/pt-br/)
+- [React](https://pt-br.reactjs.org/)
+- [Node.js](https://nodejs.org/en/)
 
 ---
 
